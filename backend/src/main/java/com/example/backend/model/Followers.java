@@ -12,26 +12,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.Data;
 
-
 @Entity
-@Table(name="posts")
 @Data
+@Table(name="followers")
+public class Followers {
 
-public class Posts {
-	@Id
+	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long postId;
-	private String pic;
+	private Long followerId;
 	@ManyToOne
-	@JsonBackReference
-
 	private Users user;
-	private int likes;
+	private String followerUserName;
 	
-	@OneToMany(mappedBy="post",cascade=CascadeType.REMOVE)
-	private List<Comments> comment=new ArrayList<Comments>();
+
 }
