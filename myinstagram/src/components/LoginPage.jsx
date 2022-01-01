@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import './LoginPage.css';
+import { Link } from "react-router-dom";
+
 export default class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -108,9 +110,9 @@ export default class LoginPage extends Component {
                     </button>
                     <p className="small fw-bold mt-2 pt-1 mb-0">
                       Don't have an account?{" "}
-                      <a href="#!" className="link-danger">
+                      <Link to="/register" className="link-danger" onClick={this.register}>
                         Register
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </form>
