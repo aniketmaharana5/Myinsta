@@ -19,7 +19,7 @@ import lombok.Data;
 
 @Entity
 @Table(name="posts")
-@Data
+//@Data
 
 public class Posts {
 	@Id
@@ -34,4 +34,55 @@ public class Posts {
 	
 	@OneToMany(mappedBy="post",cascade=CascadeType.REMOVE)
 	private List<Comments> comment=new ArrayList<Comments>();
+
+	
+	public Posts() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Posts(Long postId, String pic, Users user, int likes, List<Comments> comment) {
+		super();
+		this.postId = postId;
+		this.pic = pic;
+		this.user = user;
+		this.likes = likes;
+		this.comment = comment;
+	}
+
+	public Long getPostId() {
+		return postId;
+	}
+
+	public void setPostId(Long postId) {
+		this.postId = postId;
+	}
+
+	public String getPic() {
+		return pic;
+	}
+
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	
+	
+	
 }
