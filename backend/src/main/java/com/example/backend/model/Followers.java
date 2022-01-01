@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="followers")
 public class Followers {
 
@@ -25,6 +24,36 @@ public class Followers {
 	@ManyToOne
 	private Users user;
 	private String followerUserName;
+	
+	
+	
+	public Followers() {
+		super();
+	}
+	public Followers(Long followerId, Users user, String followerUserName) {
+		super();
+		this.followerId = followerId;
+		this.user = user;
+		this.followerUserName = followerUserName;
+	}
+	public Long getFollowerId() {
+		return followerId;
+	}
+	public void setFollowerId(Long followerId) {
+		this.followerId = followerId;
+	}
+	public Users getUser() {
+		return user;
+	}
+	public void setUser(Users user) {
+		this.user = user;
+	}
+	public String getFollowerUserName() {
+		return followerUserName;
+	}
+	public void setFollowerUserName(String followerUserName) {
+		this.followerUserName = followerUserName;
+	}
 	
 
 }

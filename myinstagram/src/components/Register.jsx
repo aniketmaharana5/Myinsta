@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 
-
-export default class Register extends Component {
+ class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,14 +16,22 @@ export default class Register extends Component {
         this.handleUserName = this.handleUserName.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleResetPassword = this.handleResetPassword.bind(this);
-
+        this.handleredirect=this.handleredirect.bind(this);
     }
    
-    handleUserName(event) { this.setState({value: event.target.value});  }
+    handleUserName(event) { this.setState({userName: event.target.value}); }
 
-    handlePassword(event) {    this.setState({value: event.target.value});  }
+    handlePassword(event) {    this.setState({password: event.target.value});  }
 
-    handleResetPassword(event) {    this.setState({value: event.target.value}); }
+    handleResetPassword(event) {    this.setState({repeatpassword: event.target.value}); }
+
+    handleredirect()
+
+    {
+      alert("hii")
+      this.props.history.push('/')
+
+    }
 
     handleRegister(event){
         event.preventDefault();
@@ -32,10 +40,20 @@ export default class Register extends Component {
             password:this.state.password,
         }
         axios.post('http://localhost:8084/Auth/register',user)
-        .then(res=>{console.log(res)})
-        .catch(error=>{alert(error)})
+        .then(res=>{
+          if(res.status==200)
+
+          {
+
+            alert("registeration done succesfully");
+
+          this.handleredirect()
+
+          }})
+        .catch(error=>{alert("UserName Already exists")})
     }
 
+    
 
   render() {
     return (
@@ -139,3 +157,5 @@ export default class Register extends Component {
     );
   }
 }
+
+export default withRouter(Register);

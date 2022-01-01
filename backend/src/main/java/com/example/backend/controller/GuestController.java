@@ -20,6 +20,7 @@ import com.example.backend.repository.UserRepository;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/Auth/")
 public class GuestController {
 	@Autowired
