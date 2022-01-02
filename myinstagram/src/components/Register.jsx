@@ -25,7 +25,6 @@ import { withRouter } from "react-router-dom";
 
     handleResetPassword(event) {    this.setState({repeatpassword: event.target.value}); }
 
-
     handleRegister(event){
         event.preventDefault();
         const user={
