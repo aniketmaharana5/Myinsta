@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
+import { Link,withRouter } from 'react-router-dom';
 
-export default class Home extends Component {
+class Home extends Component {
+
+    constructor(props){
+        super(props);
+    }
+
     render() {
         return (
             <div>
@@ -9,3 +15,4 @@ export default class Home extends Component {
         )
     }
 }
+export default withRouter(Home);
