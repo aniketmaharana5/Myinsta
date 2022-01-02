@@ -1,6 +1,9 @@
 package com.example.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -60,9 +63,14 @@ public class UserController {
 	public Posts post(@RequestBody Posts p,@PathVariable String userName) {
 		Users user=userrepository.findByUserName(userName);
 		p.setUser(user);
-		return postrepository.save(p);
-		
+		return postrepository.save(p);	
 	}
+	
+    @GetMapping("/posts")
+    public ResponseEntity <List<Posts>> getAllPosts(){
+        List<Posts> postList =postrepository.findAll();
+        return ResponseEntity.ok(postList);
+    }
 	
 	
 //  Update
