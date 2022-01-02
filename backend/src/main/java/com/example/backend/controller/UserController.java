@@ -40,7 +40,8 @@ public class UserController {
 	@GetMapping("/login")
 	public String login() {
 		Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-		return "true";
+		Users u=userrepository.findByUserName(auth.getName());
+		return u.getUserName();
 	}	
 	
 //	followers

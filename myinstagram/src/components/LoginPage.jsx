@@ -1,21 +1,47 @@
 import React, { Component } from "react";
 import axios from "axios";
-import './LoginPage.css';
-import { Link } from "react-router-dom";
+import "./LoginPage.css";
+import { Link ,withRouter} from "react-router-dom";
 
-export default class LoginPage extends Component {
+
+class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
+      userName: "",
+      password: "",
     };
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleUserName = this.handleUserName.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
   }
 
-  componentDidMount() {
-    axios
-      .get("https://api.npms.io/v2/search?q=react")
-      .then((response) => console.log(response.data));
+  handleUserName(event) { this.setState({userName: event.target.value}); }
+
+  handlePassword(event) {    this.setState({password: event.target.value});  }
+
+
+  handleLogin(event){
+    event.preventDefault();
+      // const userName=this.state.userName,
+      // const password:this.state.password
+
+    axios.get('http://localhost:8084/user/login',
+    { headers: { authorization: 'Basic ' + window.btoa(this.state.userName + ":" + this.state.password) } })
+    .then(res=>{
+      if(res.status==200)
+
+          {
+
+            alert("login success");
+
+            this.props.history.push('/home')
+
+          }
+    })
+    .catch(error=>{alert("Wrong password or Inavlid username")})
   }
+
   render() {
     return (
       <>
@@ -30,7 +56,7 @@ export default class LoginPage extends Component {
                 />
               </div>
               <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form>
+                <form onSubmit={this.handleLogin}>
                   <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                     <p className="lead fw-normal mb-0 me-3">Sign in with</p>
                     <button
@@ -61,13 +87,14 @@ export default class LoginPage extends Component {
 
                   <div className="form-outline mb-4">
                     <input
-                      type="email"
+                      type="text"
                       id="form3Example3"
                       className="form-control form-control-lg"
-                      placeholder="Enter a valid email address"
+                      placeholder="Enter a valid UserName"
+                      onChange={this.handleUserName}
                     />
                     <label className="form-label" htmlFor="form3Example3">
-                      Email address
+                      UserName
                     </label>
                   </div>
 
@@ -77,6 +104,7 @@ export default class LoginPage extends Component {
                       id="form3Example4"
                       className="form-control form-control-lg"
                       placeholder="Enter password"
+                      onChange={this.handlePassword}
                     />
                     <label className="form-label" htmlFor="form3Example4">
                       Password
@@ -91,7 +119,10 @@ export default class LoginPage extends Component {
                         value=""
                         id="form2Example3"
                       />
-                      <label className="form-check-label" htmlFor="form2Example3">
+                      <label
+                        className="form-check-label"
+                        htmlFor="form2Example3"
+                      >
                         Remember me
                       </label>
                     </div>
@@ -102,15 +133,19 @@ export default class LoginPage extends Component {
 
                   <div className="text-center text-lg-start mt-4 pt-2">
                     <button
-                      type="button"
+                      type="submit"
                       className="btn btn-primary btn-lg"
-                      style={{paddingLeft: "2.5rem", paddingRight: "2.5rem"}}
+                      style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
                     >
                       Login
                     </button>
                     <p className="small fw-bold mt-2 pt-1 mb-0">
                       Don't have an account?{" "}
-                      <Link to="/register" className="link-danger" onClick={this.register}>
+                      <Link
+                        to="/register"
+                        className="link-danger"
+                        onClick={this.register}
+                      >
                         Register
                       </Link>
                     </p>
@@ -144,3 +179,4 @@ export default class LoginPage extends Component {
     );
   }
 }
+export default withRouter(LoginPage);

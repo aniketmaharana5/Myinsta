@@ -43,6 +43,7 @@ class Home extends Component {
                 alt=""
               />
               <span>Coding BD</span>
+
             </div>
             <i class="fa fa-ellipsis-h"></i>
           </div>
