@@ -16,7 +16,7 @@ import { withRouter } from "react-router-dom";
         this.handleUserName = this.handleUserName.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleResetPassword = this.handleResetPassword.bind(this);
-        this.handleredirect=this.handleredirect.bind(this);
+        
     }
    
     handleUserName(event) { this.setState({userName: event.target.value}); }
@@ -25,13 +25,6 @@ import { withRouter } from "react-router-dom";
 
     handleResetPassword(event) {    this.setState({repeatpassword: event.target.value}); }
 
-    handleredirect()
-
-    {
-      alert("hii")
-      this.props.history.push('/')
-
-    }
 
     handleRegister(event){
         event.preventDefault();
@@ -47,10 +40,13 @@ import { withRouter } from "react-router-dom";
 
             alert("registeration done succesfully");
 
-          this.handleredirect()
+            this.props.history.push('/')
 
           }})
-        .catch(error=>{alert("UserName Already exists")})
+        .catch(error=>{alert("UserName Already exists");
+            window.location.reload(false)
+      })
+        
     }
 
     
