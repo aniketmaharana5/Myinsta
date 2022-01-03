@@ -16,6 +16,7 @@ class LoginPage extends Component {
     this.handlePassword = this.handlePassword.bind(this);
   }
 
+
   handleUserName(event) { this.setState({userName: event.target.value}); }
 
   handlePassword(event) {    this.setState({password: event.target.value});  }
@@ -32,11 +33,10 @@ class LoginPage extends Component {
       if(res.status==200)
 
           {
-
             alert("login success");
-
+            localStorage.setItem("userName",res.data);
+            localStorage.setItem("password",this.state.password);
             this.props.history.push('/home')
-
           }
     })
     .catch(error=>{alert("Wrong password or Inavlid username")})

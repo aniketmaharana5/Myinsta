@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.model.Followers;
+import com.example.backend.model.PostResponse;
 import com.example.backend.model.Posts;
 import com.example.backend.model.Users;
 import com.example.backend.repository.FollowerRepository;
+import com.example.backend.repository.Mini;
 import com.example.backend.repository.PostsRepository;
 import com.example.backend.repository.UserRepository;
 
@@ -68,11 +71,26 @@ public class UserController {
 	}
 	
     @GetMapping("/posts")
-    public ResponseEntity <List<Posts>> getAllPosts(){
+    public ResponseEntity<List<PostResponse>> getAllPosts(){
         List<Posts> postList =postrepository.findAll();
-        return ResponseEntity.ok(postList);
+        List<PostResponse> pl=new ArrayList<PostResponse>();
+        for (int i = 0; i < postList.size(); i++) 
+        {
+          PostResponse p=new PostResponse();
+          p.setPic(postList.get(i).getPic());
+          p.setLikes(postList.get(i).getLikes());
+          p.setUserName(postList.get(i).getUser().getUserName());
+          pl.add(p);
+          
+        }
+        return ResponseEntity.ok(pl);
     }
 	
+//    @GetMapping("/posts")
+//    public ResponseEntity <List<Mini>> getAllPosts(){
+//        List<Mini> postList =postrepository.getPostsUserId();
+//        return ResponseEntity.ok(postList);
+//    }
 	
 //  Update
 	

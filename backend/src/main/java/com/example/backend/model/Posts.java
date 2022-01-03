@@ -41,6 +41,11 @@ public class Posts {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Posts(String pic, int likes) {
+		this.pic = pic;
+//		this.user = user;
+		this.likes = likes;
+	}
 	public Posts(Long postId, String pic, Users user, int likes, List<Comments> comment) {
 		super();
 		this.postId = postId;
