@@ -86,11 +86,11 @@ public class UserController {
         return ResponseEntity.ok(pl);
     }
 	
-//    @GetMapping("/posts")
-//    public ResponseEntity <List<Mini>> getAllPosts(){
-//        List<Mini> postList =postrepository.getPostsUserId();
-//        return ResponseEntity.ok(postList);
-//    }
+    @GetMapping("/posts1")
+    public ResponseEntity <List<Posts>> getPosts(){
+        List<Posts> postList =postrepository.findAll();
+        return ResponseEntity.ok(postList);
+    }
 	
 //  Update
 	
