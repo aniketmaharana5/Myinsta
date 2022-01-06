@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,34 +27,36 @@ public class Posts {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long postId;
 	private String pic;
+	
 	@ManyToOne
 	@JsonBackReference
-
 	private Users user;
+	
 	private int likes;
 	
-	@OneToMany(mappedBy="post",cascade=CascadeType.REMOVE)
-	private List<Comments> comment=new ArrayList<Comments>();
-
+	@Convert(converter = StringListConverter.class)
+	private List<String> userLikes=new ArrayList<String>();
 	
-	public Posts() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Posts(String pic, int likes) {
-		this.pic = pic;
-//		this.user = user;
-		this.likes = likes;
-	}
-	public Posts(Long postId, String pic, Users user, int likes, List<Comments> comment) {
+	public Posts(Long postId, String pic, Users user, int likes, List<String> userLikes, List<Comments> comment) {
 		super();
 		this.postId = postId;
 		this.pic = pic;
 		this.user = user;
 		this.likes = likes;
+		this.userLikes = userLikes;
 		this.comment = comment;
 	}
+
+	public List<String> getUserLikes() {
+		return userLikes;
+	}
+
+	public void setUserLikes(List<String> userLikes) {
+		this.userLikes = userLikes;
+	}
+
+	@OneToMany(mappedBy="post",cascade=CascadeType.REMOVE)
+	private List<Comments> comment=new ArrayList<Comments>();
 
 	public Long getPostId() {
 		return postId;
@@ -87,7 +90,19 @@ public class Posts {
 		this.likes = likes;
 	}
 
-	
-	
-	
+	public List<Comments> getComment() {
+		return comment;
+	}
+
+	public void setComment(List<Comments> comment) {
+		this.comment = comment;
+	}
+
+
+	public Posts() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+		
 }

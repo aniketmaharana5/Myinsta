@@ -55,7 +55,6 @@ class Register extends Component {
     event.preventDefault();
     this.handleValidatePassword(this.state.password, this.state.repeatpassword);
     if (this.state.flag == false) {
-      alert(this.state.flag)
       const user = {
         userName: this.state.userName,
         password: this.state.password,

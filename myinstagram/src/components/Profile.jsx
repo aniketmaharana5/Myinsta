@@ -1,49 +1,99 @@
+import axios from "axios";
 import React, { Component } from "react";
-import "./Profile.css"
+import "./Profile.css";
+
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: {
+        userName: "",
+        followers: 0,
+        following: 0,
+        noOfPosts: 0,
+        profilePic: "",
+      },
+      posts: [],
+    };
+  }
+
+  componentDidMount() {
+    const userName = localStorage.getItem("userName");
+    const password = localStorage.getItem("password");
+    axios
+      .get(`http://localhost:8084/user/profile/${userName}`, {
+        headers: {
+          authorization: "Basic " + window.btoa(userName + ":" + password),
+        },
+      })
+      .then((res) => {
+        this.setState({ users: res.data });
+      });
+
+    axios
+      .get(`http://localhost:8084/user/profilePost/${userName}`, {
+        headers: {
+          authorization: "Basic " + window.btoa(userName + ":" + password),
+        },
+      })
+      .then((res) => {
+        this.setState({posts:res.data});
+      });
+  }
+
   render() {
     return (
       <div>
         <div>
-          <div class="container">
-            <div class="profile">
-              <div class="profile-image">
+          <div className="container">
+            <div className="profile">
+              <div className="profile-image">
                 <img
-                  src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
+                  src={this.state.users.profilePic}
                   alt=""
+                  style={{ width: "100px", height: "100px" }}
                 />
               </div>
 
-              <div class="profile-user-settings">
-                <h1 class="profile-user-name">janedoe_</h1>
+              <div className="profile-user-settings">
+                <h1 className="profile-user-name">{this.state.users.userName}</h1>
 
-                <button class="btn profile-edit-btn">Edit Profile</button>
+                <button className="btn profile-edit-btn">Edit Profile</button>
 
                 <button
-                  class="btn profile-settings-btn"
+                  className="btn profile-settings-btn"
                   aria-label="profile settings"
                 >
-                  <i class="fas fa-cog" aria-hidden="true"></i>
+                  <i className="fas fa-cog" aria-hidden="true"></i>
                 </button>
               </div>
 
-              <div class="profile-stats">
+              <div className="profile-stats">
                 <ul>
                   <li>
-                    <span class="profile-stat-count">164</span> posts
+                    <span className="profile-stat-count">
+                      {this.state.users.noOfPosts}
+                    </span>{" "}
+                    posts
                   </li>
                   <li>
-                    <span class="profile-stat-count">188</span> followers
+                    <span className="profile-stat-count">
+                      {this.state.users.followers}
+                    </span>{" "}
+                    followers
                   </li>
                   <li>
-                    <span class="profile-stat-count">206</span> following
+                    <span className="profile-stat-count">
+                      {this.state.users.following}
+                    </span>{" "}
+                    following
                   </li>
                 </ul>
               </div>
 
-              <div class="profile-bio">
+              <div className="profile-bio">
                 <p>
-                  <span class="profile-real-name">Jane Doe</span> Lorem ipsum
+                  <span className="profile-real-name">Jane Doe</span> Lorem ipsum
                   dolor sit, amet consectetur adipisicing elit 📷✈️🏕️
                 </p>
               </div>
@@ -52,109 +102,32 @@ export default class Profile extends Component {
         </div>
 
         <div>
-          <div class="container">
-            <div class="gallery">
-              <div class="gallery-item" tabindex="0">
-                <img
-                  src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop"
-                  class="gallery-image"
-                  alt=""
-                />
+          <div className="container">
+            <div className="gallery">
+              {this.state.posts.map((post1)=>(
+                <div className="gallery-item" tabIndex="0">
+                  <img
+                    src={post1.pic}
+                    className="gallery-image"
+                    alt=""
+                  />
 
-                <div class="gallery-item-info">
-                  <ul>
-                    <li class="gallery-item-likes">
-                      <span class="visually-hidden">Likes:</span>
-                      <i class="fas fa-heart" aria-hidden="true"></i> 56
-                    </li>
-                    <li class="gallery-item-comments">
-                      <span class="visually-hidden">Comments:</span>
-                      <i class="fas fa-comment" aria-hidden="true"></i> 2
-                    </li>
-                  </ul>
+                  <div className="gallery-item-info">
+                    <ul>
+                      <li className="gallery-item-likes">
+                        <span className="visually-hidden">Likes:</span>
+                        <i className="fas fa-heart" aria-hidden="true"></i> 56
+                      </li>
+                      <li className="gallery-item-comments">
+                        <span className="visually-hidden">Comments:</span>
+                        <i className="fas fa-comment" aria-hidden="true"></i> 2
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-
-              <div class="gallery-item" tabindex="0">
-                <img
-                  src="https://images.unsplash.com/photo-1497445462247-4330a224fdb1?w=500&h=500&fit=crop"
-                  class="gallery-image"
-                  alt=""
-                />
-
-                <div class="gallery-item-info">
-                  <ul>
-                    <li class="gallery-item-likes">
-                      <span class="visually-hidden">Likes:</span>
-                      <i class="fas fa-heart" aria-hidden="true"></i> 89
-                    </li>
-                    <li class="gallery-item-comments">
-                      <span class="visually-hidden">Comments:</span>
-                      <i class="fas fa-comment" aria-hidden="true"></i> 5
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
- 
-              <div class="gallery-item" tabindex="0">
-                <img
-                  src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=500&h=500&fit=crop"
-                  class="gallery-image"
-                  alt=""
-                />
-
-                <div class="gallery-item-type">
-                  <span class="visually-hidden">Gallery</span>
-                  <i class="fas fa-clone" aria-hidden="true"></i>
-                </div>
-
-                <div class="gallery-item-info">
-                  <ul>
-                    <li class="gallery-item-likes">
-                      <span class="visually-hidden">Likes:</span>
-                      <i class="fas fa-heart" aria-hidden="true"></i> 52
-                    </li>
-                    <li class="gallery-item-comments">
-                      <span class="visually-hidden">Comments:</span>
-                      <i class="fas fa-comment" aria-hidden="true"></i> 4
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-
-              <div class="gallery-item" tabindex="0">
-                <img
-                  src="https://images.unsplash.com/photo-1423012373122-fff0a5d28cc9?w=500&h=500&fit=crop"
-                  class="gallery-image"
-                  alt=""
-                />
-
-                <div class="gallery-item-type">
-                  <span class="visually-hidden">Video</span>
-                  <i class="fas fa-video" aria-hidden="true"></i>
-                </div>
-
-                <div class="gallery-item-info">
-                  <ul>
-                    <li class="gallery-item-likes">
-                      <span class="visually-hidden">Likes:</span>
-                      <i class="fas fa-heart" aria-hidden="true"></i> 30
-                    </li>
-                    <li class="gallery-item-comments">
-                      <span class="visually-hidden">Comments:</span>
-                      <i class="fas fa-comment" aria-hidden="true"></i> 2
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              ))}
             </div>
-            {/* <!-- End of gallery --> */}
-
-            <div class="loader"></div>
           </div>
-          {/* <!-- End of container --> */}
         </div>
       </div>
     );

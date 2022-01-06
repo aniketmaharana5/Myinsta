@@ -15,8 +15,11 @@ public interface PostsRepository extends JpaRepository<Posts,Long>{
 	List<Posts> getPosts(Long id);
 	Posts findByPostId(Long id);
 	
-	@Query(value="Select p.pic,p.likes,p.user from Posts p",nativeQuery=true)
-	List<Mini> getPostsUserId();
+	
+	
+	
+	
+	
 }
 
 

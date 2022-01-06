@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,11 +63,35 @@ public class UserController {
 		followerrepository.save(f);
 		return user;
 	}
+	
+	//Likes
+	@PutMapping("/likes/{postId}/{userName}")
+	public Posts likes(@PathVariable Long postId, @PathVariable String userName) {
+		Posts post=postrepository.findByPostId(postId);
+		post.setLikes(post.getLikes()+1);
+		List<String>s=post.getUserLikes();
+		s.add(userName);
+		post.setUserLikes(s);
+		return postrepository.save(post);
+	}
+	//dislikes
+	@PutMapping("/dislikes/{postId}/{userName}")
+	public Posts dislikes(@PathVariable Long postId, @PathVariable String userName) {
+		Posts post=postrepository.findByPostId(postId);
+		post.setLikes(post.getLikes()-1);
+		List<String> s=post.getUserLikes();
+		s.remove(userName);
+		post.setUserLikes(s);
+		return postrepository.save(post);
+	}
+	
 //	posts
 	@PostMapping("/posts/{userName}")
 	public Posts post(@RequestBody Posts p,@PathVariable String userName) {
 		Users user=userrepository.findByUserName(userName);
 		p.setUser(user);
+		user.setNoOfPosts(user.getNoOfPosts()+1);
+		userrepository.save(user);
 		return postrepository.save(p);	
 	}
 	
@@ -77,20 +102,37 @@ public class UserController {
         for (int i = 0; i < postList.size(); i++) 
         {
           PostResponse p=new PostResponse();
+          p.setPostId(postList.get(i).getPostId());
           p.setPic(postList.get(i).getPic());
           p.setLikes(postList.get(i).getLikes());
           p.setUserName(postList.get(i).getUser().getUserName());
+          p.setProfilePic(postList.get(i).getUser().getProfilePic());
+          p.setComment(postList.get(i).getComment());
           pl.add(p);
           
         }
         return ResponseEntity.ok(pl);
     }
-	
-    @GetMapping("/posts1")
-    public ResponseEntity <List<Posts>> getPosts(){
-        List<Posts> postList =postrepository.findAll();
-        return ResponseEntity.ok(postList);
+    
+    @GetMapping("/profilePost/{userName}")
+    public List<Posts> getProfile(@PathVariable String userName) {
+    	Users user= userrepository.findByUserName(userName);
+    	List<Posts> profileList=postrepository.getPosts(user.getUserId());
+        return profileList;
     }
+    
+    @GetMapping("/profile/{userName}")
+    public Users getUserProfile(@PathVariable String userName) {
+    	Users user=userrepository.findByUserName(userName);
+    	return user;
+    }
+    
+//	
+//    @GetMapping("/posts1")
+//    public ResponseEntity <List<Posts>> getPosts(){
+//        List<Posts> postList =postrepository.findAll();
+//        return ResponseEntity.ok(postList);
+//    }
 	
 //  Update
 	

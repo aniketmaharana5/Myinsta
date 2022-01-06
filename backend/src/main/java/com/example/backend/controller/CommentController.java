@@ -26,7 +26,7 @@ public class CommentController {
 	@Autowired
 	CommentsRepository commentsrepository;
 
-	@PostMapping("/comments/{PostId}")
+	@PostMapping("/comments/{PostId}/{userId}")
 	public Comments comment(@RequestBody Comments c,@PathVariable Long PostId ) {
 		Posts post= postrepository.findByPostId(PostId);
 		c.setPost(post);

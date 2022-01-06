@@ -9,7 +9,24 @@ public class PostResponse {
 	private String userName;
 	private String profilePic;
 	private List<Comments> comment;
+	private Long postId;
 	
+	public Long getPostId() {
+		return postId;
+	}
+	public void setPostId(Long postId) {
+		this.postId = postId;
+	}
+	public PostResponse(String pic, int likes, String userName, String profilePic, List<Comments> comment,
+			Long postId) {
+		super();
+		this.pic = pic;
+		this.likes = likes;
+		this.userName = userName;
+		this.profilePic = profilePic;
+		this.comment = comment;
+		this.postId = postId;
+	}
 	public String getPic() {
 		return pic;
 	}
@@ -38,14 +55,6 @@ public class PostResponse {
 		return comment;
 	}
 	public void setComment(List<Comments> comment) {
-		this.comment = comment;
-	}
-	public PostResponse(String pic, int likes, String userName, String profilePic, List<Comments> comment) {
-		super();
-		this.pic = pic;
-		this.likes = likes;
-		this.userName = userName;
-		this.profilePic = profilePic;
 		this.comment = comment;
 	}
 	public PostResponse() {
