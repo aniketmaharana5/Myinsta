@@ -10,15 +10,12 @@ public class PostResponse {
 	private String profilePic;
 	private List<Comments> comment;
 	private Long postId;
+	private boolean checklike;
 	
-	public Long getPostId() {
-		return postId;
-	}
-	public void setPostId(Long postId) {
-		this.postId = postId;
-	}
-	public PostResponse(String pic, int likes, String userName, String profilePic, List<Comments> comment,
-			Long postId) {
+	
+	
+	public PostResponse(String pic, int likes, String userName, String profilePic, List<Comments> comment, Long postId,
+			boolean checklike) {
 		super();
 		this.pic = pic;
 		this.likes = likes;
@@ -26,7 +23,21 @@ public class PostResponse {
 		this.profilePic = profilePic;
 		this.comment = comment;
 		this.postId = postId;
+		this.checklike = checklike;
 	}
+	public boolean isChecklike() {
+		return checklike;
+	}
+	public void setChecklike(boolean checklike) {
+		this.checklike = checklike;
+	}
+	public Long getPostId() {
+		return postId;
+	}
+	public void setPostId(Long postId) {
+		this.postId = postId;
+	}
+	
 	public String getPic() {
 		return pic;
 	}

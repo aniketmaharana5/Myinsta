@@ -21,7 +21,6 @@ import com.example.backend.model.PostResponse;
 import com.example.backend.model.Posts;
 import com.example.backend.model.Users;
 import com.example.backend.repository.FollowerRepository;
-import com.example.backend.repository.Mini;
 import com.example.backend.repository.PostsRepository;
 import com.example.backend.repository.UserRepository;
 
@@ -95,13 +94,16 @@ public class UserController {
 		return postrepository.save(p);	
 	}
 	
-    @GetMapping("/posts")
-    public ResponseEntity<List<PostResponse>> getAllPosts(){
+    @GetMapping("/posts/{userName}")
+    public ResponseEntity<List<PostResponse>> getAllPosts(@PathVariable String userName){
         List<Posts> postList =postrepository.findAll();
         List<PostResponse> pl=new ArrayList<PostResponse>();
         for (int i = 0; i < postList.size(); i++) 
         {
+          List<String> a=postList.get(i).getUserLikes();
+        	
           PostResponse p=new PostResponse();
+          p.setChecklike(a.contains(userName));
           p.setPostId(postList.get(i).getPostId());
           p.setPic(postList.get(i).getPic());
           p.setLikes(postList.get(i).getLikes());
@@ -113,6 +115,23 @@ public class UserController {
         }
         return ResponseEntity.ok(pl);
     }
+    
+    @GetMapping("checklike/{userName}")
+    public List<Boolean> check(@PathVariable String userName) {
+    	List<Posts> listpost=postrepository.findAll();
+    	List<Boolean> result=new ArrayList<Boolean>();
+    	for (int i = 0; i < listpost.size(); i++) 
+        {
+    		Posts p=listpost.get(i);
+    		List<String> usernames=p.getUserLikes();
+    		boolean a=usernames.contains(userName);
+            result.add(a);
+        }
+    	return result;
+    }
+    
+    
+    
     
     @GetMapping("/profilePost/{userName}")
     public List<Posts> getProfile(@PathVariable String userName) {
@@ -126,6 +145,9 @@ public class UserController {
     	Users user=userrepository.findByUserName(userName);
     	return user;
     }
+    
+   
+    
     
 //	
 //    @GetMapping("/posts1")

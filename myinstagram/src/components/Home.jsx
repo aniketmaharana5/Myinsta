@@ -173,12 +173,13 @@ class Home extends Component {
             <div className="footer">
               <div className="icons">
                 <div className="left_side">
-                  {this.state.isLoggedIn ? (
+                  {post.checklike ? (
                     <i
-                      className="fa fa-heart-o"
+                      className="fa fa-heart"
                       aria-hidden="true"
                       onClick={() => {
-                        this.handleLikes(post.postId);
+                        
+                        this.handleDislikes(post.postId);
                       }}
                       
                     ></i>
@@ -186,10 +187,10 @@ class Home extends Component {
 
                     
                     <i
-                      className="fa fa-heart"
+                      className="fa fa-heart-o"
                       aria-hidden="true"
                       onClick={() => {
-                        this.handleDislikes(post.postId);
+                        this.handleLikes(post.postId);
                       }}
                       
                     ></i>

@@ -4,7 +4,12 @@ const Post_api_base_url="http://localhost:8084/user/posts";
 
 class PostService{
     getPost(){
-        return axios.get(Post_api_base_url);
+        const userName = localStorage.getItem("userName");
+    const password = localStorage.getItem("password");
+        return axios.get(`http://localhost:8084/user/posts/${userName}`,{
+            headers: {
+                authorization: "Basic " + window.btoa(userName + ":" + password),
+              },});
     }
 
     // deleteEmployee(Year){
