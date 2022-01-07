@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { Component } from "react";
 import "./Profile.css";
 import {Link} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,11 +14,19 @@ export default class Profile extends Component {
         following: 0,
         noOfPosts: 0,
         profilePic: "",
+        caption:""
       },
       posts: [],
     };
+    this.handleDelete=this.handleDelete.bind(this)
   }
 
+  handleDelete=()=>{
+    const userName = localStorage.getItem("userName");
+
+    axios.delete(`http://localhost:8084/user/delete/${userName}`)
+    this.props.history.push('/')
+  }
   componentDidMount() {
     const userName = localStorage.getItem("userName");
     const password = localStorage.getItem("password");
@@ -36,6 +45,7 @@ export default class Profile extends Component {
         headers: {
           authorization: "Basic " + window.btoa(userName + ":" + password),
         },
+        
       })
       .then((res) => {
         this.setState({posts:res.data});
@@ -60,13 +70,8 @@ export default class Profile extends Component {
                 <h1 className="profile-user-name">{this.state.users.userName}</h1>
 
                 <Link to="/updateProfile" className="btn profile-edit-btn">Edit Profile</Link>
+                <button className="btn profile-edit-btn" onClick={this.handleDelete}>Delete Profile</button>
 
-                <button
-                  className="btn profile-settings-btn"
-                  aria-label="profile settings"
-                >
-                  <i className="fas fa-cog" aria-hidden="true"></i>
-                </button>
               </div>
 
               <div className="profile-stats">
@@ -94,8 +99,7 @@ export default class Profile extends Component {
 
               <div className="profile-bio">
                 <p>
-                  <span className="profile-real-name">Jane Doe</span> Lorem ipsum
-                  dolor sit, amet consectetur adipisicing elit 📷✈️🏕️
+                  <span className="profile-real-name">{this.state.users.caption}</span> 📷✈️🏕️
                 </p>
               </div>
             </div>
@@ -134,3 +138,4 @@ export default class Profile extends Component {
     );
   }
 }
+export default withRouter(Profile)

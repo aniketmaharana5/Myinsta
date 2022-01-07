@@ -24,6 +24,7 @@ class Home extends Component {
     this.handleDislikes = this.handleDislikes.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleLikes(postId) {
@@ -55,7 +56,6 @@ class Home extends Component {
       this.setState({ posts: res.data });
     });
     this.setState({ isLoggedIn: true });
-
   }
   uploadFile() {
     let img = this.state.image;
@@ -108,7 +108,12 @@ class Home extends Component {
       });
     }
   };
+  handleDelete(postId){
+    // console.log(postId)
 
+
+    // axios.delete(`http://localhost:8084/user/Delete/${postId}`);
+  }
   componentDidMount() {
     // const userName = localStorage.getItem("userName");
     // const password = localStorage.getItem("password");
@@ -165,7 +170,8 @@ class Home extends Component {
                 &nbsp;&nbsp;
                 <button className="btn btn-primary">Follow</button>
               </div>
-              <i className="fa fa-ellipsis-h"></i>
+             
+                <button className="btn btn-danger" onClick={this.handleDelete(post.postId)}>Delete Post</button>
             </div>
             <div className="main_img">
               <img src={post.pic} style={{ width: "640px" }} />
@@ -178,21 +184,16 @@ class Home extends Component {
                       className="fa fa-heart"
                       aria-hidden="true"
                       onClick={() => {
-                        
                         this.handleDislikes(post.postId);
                       }}
-                      
                     ></i>
                   ) : (
-
-                    
                     <i
                       className="fa fa-heart-o"
                       aria-hidden="true"
                       onClick={() => {
                         this.handleLikes(post.postId);
                       }}
-                      
                     ></i>
                   )}
                   <i className="fa fa-comment-o" aria-hidden="true"></i>
