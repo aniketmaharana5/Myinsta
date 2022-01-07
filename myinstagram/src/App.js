@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import Register from "./components/Register";
 import Navbar from "./components/Navbar";
-
+import UpdateProfile from "./components/UpdateProfile";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
 function App() {
@@ -23,6 +23,9 @@ function App() {
           </Route>
           <Route exact path="/profile">
           <Profile/>
+          </Route>
+          <Route exact path="/updateProfile">
+          <UpdateProfile/>
           </Route>
         </Switch>
       </Router>

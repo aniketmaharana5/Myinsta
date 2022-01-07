@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import "./Profile.css";
+import {Link} from "react-router-dom";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ export default class Profile extends Component {
               <div className="profile-user-settings">
                 <h1 className="profile-user-name">{this.state.users.userName}</h1>
 
-                <button className="btn profile-edit-btn">Edit Profile</button>
+                <Link to="/updateProfile" className="btn profile-edit-btn">Edit Profile</Link>
 
                 <button
                   className="btn profile-settings-btn"

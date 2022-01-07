@@ -37,6 +37,7 @@ public class Users {
 	private int noOfPosts;
 	private int followers;
 	private int following;
+	private String caption;
 	private String password;
 	
 	@OneToMany(mappedBy="user",cascade=CascadeType.REMOVE)
@@ -47,12 +48,15 @@ public class Users {
 
 	
 	
+
+
 	public Users() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public Users(Long userId, String userName, String profilePic, int noOfPosts, int followers, int following,
-			String password, List<Posts> post, List<Followers> follower) {
+			String caption, String password, List<Posts> post, List<Followers> follower) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -60,9 +64,18 @@ public class Users {
 		this.noOfPosts = noOfPosts;
 		this.followers = followers;
 		this.following = following;
+		this.caption = caption;
 		this.password = password;
 		this.post = post;
 		this.follower = follower;
+	}
+
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
 	}
 
 	public Long getUserId() {

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,8 @@ import com.example.backend.model.Users;
 import com.example.backend.repository.FollowerRepository;
 import com.example.backend.repository.PostsRepository;
 import com.example.backend.repository.UserRepository;
+
+import lombok.var;
 
 @RestController
 @CrossOrigin
@@ -94,6 +98,8 @@ public class UserController {
 		return postrepository.save(p);	
 	}
 	
+
+    
     @GetMapping("/posts/{userName}")
     public ResponseEntity<List<PostResponse>> getAllPosts(@PathVariable String userName){
         List<Posts> postList =postrepository.findAll();
@@ -146,9 +152,36 @@ public class UserController {
     	return user;
     }
     
-   
+    //Update
+    
+    @PutMapping("/updateProfile/{userName}")
+    public Users updateProfile(@RequestBody Users u,@PathVariable String userName){
+    
+	Users user = userrepository.findByUserName(userName);
+	user.setProfilePic(u.getProfilePic());
+	user.setCaption(u.getCaption());
+	return userrepository.save(user);
+    }
     
     
+    //Delete
+    
+    @DeleteMapping("/delete/{userName}")
+     public ResponseEntity<String> deleteProfile(@PathVariable String userName) {
+    	Users user=userrepository.findByUserName(userName);
+    	Long id=user.getUserId();
+    	userrepository.deleteById(id);
+    	return new ResponseEntity<>("Deleted",HttpStatus.OK);
+    }
+    
+    
+    @DeleteMapping("/Delete/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable Long postId){
+    	postrepository.deleteById(postId);
+        return new ResponseEntity<>("Deleted",HttpStatus.OK);
+
+    	
+    }
 //	
 //    @GetMapping("/posts1")
 //    public ResponseEntity <List<Posts>> getPosts(){
